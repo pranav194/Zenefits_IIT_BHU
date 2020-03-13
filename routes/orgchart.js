@@ -11,9 +11,6 @@ let departmentlink = "https://api.zenefits.com/core/departments/";
 
 router.get('/',async (req,res)=>{
     try{
-        console.log("coming here");
-
-        
         let link = startlink;    
         let root = {};
         let members = await getusers(link);
@@ -31,9 +28,8 @@ router.get('/',async (req,res)=>{
                 let id = member.id;
                 let fname = member.first_name;
                 let lname = member.last_name;
-                let subordinates_url = member.subordinates.url;
+                
                 let phone  = member.work_phone;
-                let city = member.city;
                 let locationurl = member.location.url;
                 
                 let departmenturl = member.department.url;
@@ -43,62 +39,17 @@ router.get('/',async (req,res)=>{
                 let departmentid = getId(departmenturl);
                 let department = dep[departmentid];                
                 let location = loc[locid];
-                totemp.push( {"id":id,"Name" :`${fname} ${lname}`,"Phone":phone,"city":city,"department":department,"location":location,"is_admin":is_admin});
-                let manager = getId(member.manager.url);
+                totemp.push( {"id":id,"Name" :`${fname} ${lname}`, tags: [location, department],"Phone":phone,"department":department,"location":location,"is_admin":is_admin});
+                let manager = getId(manager_url);
                 if(manager)
                 {
-                    totemp[totemp.length-1].pid = getId(member.manager.url);
+                    totemp[totemp.length-1].pid = getId(manager_url);
                 }
-                else
-                {
-                    console.log(manager);
-                }
+                
             }
                 
         });    
-        // while(!que.isEmpty())
-        // {
-        //     let emp = que.dequeue();
-        //     let sub = emp.subordinates_url;
-        //     let subords = await getusers(sub);
-        //     let subordinates_emp = [];
-        //     subords.forEach(async subord=>{
-        //         let id = subord.id;
-        //         let fname = subord.first_name;
-        //         let lname = subord.last_name;
-        //         let status = subord.status;
-        //         let manager_url = subord.manager.url;
-        //         let subordinates_url = subord.subordinates.url;
-        //         let phone = subord.work_phone;
-        //         let city = subord.city;
-        //         let locationurl = subord.location.url;
-        //         let departmenturl = subord.department.url;
-        //         let is_admin = subord.is_admin;
-        //         let mem = {id,fname,lname,manager_url,subordinates_url,phone,city};
-        //         let locid = getId(locationurl);
-        //         let departmentid = getId(departmenturl);
-                
-        //         mem["department"] = dep[departmentid];                
-        //         mem["location"] = loc[locid];
-                
-        //         if(status == "active")
-        //         {
-        //             subordinates_emp.push(id);
-        //             que.enqueue(mem);
-        //         }
-        //     });
-        //     let manager = getId(emp.manager_url);
-        //     if(manager)
-        //     {
-        //         totemp.push( {"id":emp.id,"Name" :`${emp.fname} ${emp.lname}`, "pid":getId(emp.manager_url),"Phone":emp.phone,"department":emp.department, "location":emp.location,"is_admin":emp.is_admin});
-        //     }
-        //     else
-        //     {
-        //         totemp.push( {"id":emp.id,"Name" :`${emp.fname} ${emp.lname}`,"Phone":emp.phone,"department":emp.department,"location":emp.location,"is_admin":emp.is_admin});
-        //     }
-            
-        // }
-        console.log(totemp);
+        
         res.render('orgchart.ejs',{totemp});
     }
     catch(e)

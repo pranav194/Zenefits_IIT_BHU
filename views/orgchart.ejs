@@ -6,6 +6,7 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
     <title>OrgChart</title>
     <style>
+        
         .container
         {
             background-color: #98B4D4;
@@ -19,12 +20,26 @@
             position: relative;
             font-family: 'Alegreya', serif;   
         }
+        .edit-photo{
+            background-color:#B565A7 !important;
+        }
+        .edit-fields  {
+            font-size: 20px;
+            color: black;
+        }   
+        .edit-fields input {
+            color :#BC243C !important;
+            font-size: 28px;
+        }
+        .edit-wrapper{
+            opacity: 1 !important;
+        }
         g{
             font-size: 24px !important;
         }
         [node-id] rect {
             border: #BC243C 2px solid;
-            fill: #FF6F61;
+            fill: #DD4124;
             color: #DFCFBE;
         }
     </style>
@@ -88,47 +103,113 @@
 <link href="https://fonts.googleapis.com/css?family=Alegreya&display=swap" rel="stylesheet">
 <body>
     <div class="container-fluid text-justify" >
-        <div class="row" id="loader">
-            <div class="col-md-12">
-                <div class="loader">
-                    <p>Loading...</p>
-                    <div class="loader-inner"></div>
-                    <div class="loader-inner"></div>
-                    <div class="loader-inner"></div>
-                </div>
-            </div>
-        </div>
+        
 
         <h1  style="text-align:center; padding-top: 3%" >ORG CHART (IIT BHU ASSIGNMENT)</h1>
+        <div class="btn-group btn-group-lg" role="group" aria-label="...">
+            
+            <input type="button" id = "usual" class = "btn btn-primary" value="Usual Org Chart">
+            <input type="button" id = 'grp' class = "btn btn-primary "value="Group by Location">
+
+        </div>
+        
         <div id="tree"></div>
     </div>
-    <br>
-    <br>
-    <br>
+
     <h6 style="text-align: center;">
-        Created by Pranav Gupta
+        Created by Pranav Gupta <br>
         Roll no - 17045067
     </h6>
 </body>
 <script>
      let root=<%-JSON.stringify(totemp)%>
-     console.log(root);
- 
-     $(function(){
-        $('.loader').hide();
-        console.log(root);
-     var chart = new OrgChart(document.getElementById("tree"), {
 
-        mouseScrool: OrgChart.action.scroll,
-        scaleInitial: 0.75,
-         nodeBinding: {
-                field_0: "Name",
-                field_1: "id",
-                field_2: "Phone",
+     $(function(){
+        $('.loader').hide();        
+        var chart = new OrgChart(document.getElementById("tree"), {
+            menu: {
+                pdf: { text: "Export PDF" },
+                png: { text: "Export PNG" },
+                svg: { text: "Export SVG" },
+                csv: { text: "Export CSV" }
+            },
+            nodeMenu: {
+                pdf: { text: "Export PDF" },
+                png: { text: "Export PNG" },
+                svg: { text: "Export SVG" }
+            },
+            tags: {
+                "San Francisco": {
+                    group: true,
+                    groupName: "San Francisco",
+                    groupState: OrgChart.EXPAND                
+                }
+            },
+            mouseScrool: OrgChart.action.scroll,
+            
+            scaleInitial: 0.75,
+            nodeBinding: {
+                    field_0: "Name",
+                    field_1: "id",
+                    field_2: "location",
             },
             nodes: root
-        });  
+        }); 
+        document.getElementById("grp").addEventListener("click", function(){
+            chart = new OrgChart(document.getElementById("tree"), {
+                tags: {
+                    "San Francisco": {
+                        group: true,
+                        groupName: "San Francisco",
+                        groupState: OrgChart.EXPAND,
+                        template : "group_grey"               
+                    }
+                },
+                mouseScrool: OrgChart.action.scroll,
+                scaleInitial: OrgChart.match.boundary,
+                layout: OrgChart.mixed,
+                    nodeBinding: {
+                        field_0: "Name",
+                        field_1: "id",
+                        field_2: "Phone",
+                },
+                nodes: root
+            }); 
+            chart.draw();
+        }); 
+        document.getElementById("usual").addEventListener("click", function(){
+            chart = new OrgChart(document.getElementById("tree"), {
+                menu: {
+                pdf: { text: "Export PDF" },
+                png: { text: "Export PNG" },
+                svg: { text: "Export SVG" },
+                csv: { text: "Export CSV" }
+                },
+                nodeMenu: {
+                    pdf: { text: "Export PDF" },
+                    png: { text: "Export PNG" },
+                    svg: { text: "Export SVG" }
+                },
+                tags: {
+                    "San Francisco": {
+                        group: true,
+                        groupName: "San Francisco",
+                        groupState: OrgChart.EXPAND              
+                    }
+                },
+                mouseScrool: OrgChart.action.scroll,
+                scaleInitial: 0.75,
+                    nodeBinding: {
+                        field_0: "Name",
+                        field_1: "id",
+                        field_2: "Phone",
+                },
+                nodes: root
+            }); 
+            chart.draw();
+        }); 
     });  
+    
 </script>
 
 </html>
