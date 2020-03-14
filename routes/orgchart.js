@@ -2,24 +2,19 @@ const express = require('express');
 const router  = express.Router();
 const fetch = require('node-fetch');
 
-const Queue =  require('../utils/Queue');
 const Auth_Token = "elZxQlHDSUallvL3OnnH";
 const startlink = " https://api.zenefits.com/core/people";
 let loclink = "https://api.zenefits.com/core/locations/";
 let departmentlink = "https://api.zenefits.com/core/departments/";
-
 
 router.get('/',async (req,res)=>{
     try{
         let link = startlink;    
         let root = {};
         let members = await getusers(link);
-        let que = new Queue();
-
         let totemp = [];
         let loc = await getMap(loclink);
         let dep = await getMap(departmentlink);
-
         members.forEach(async (member)=>{
             let status = member.status;
             if(status == "active")
@@ -28,13 +23,10 @@ router.get('/',async (req,res)=>{
                 let id = member.id;
                 let fname = member.first_name;
                 let lname = member.last_name;
-                
                 let phone  = member.work_phone;
                 let locationurl = member.location.url;
-                
                 let departmenturl = member.department.url;
                 let is_admin = member.is_admin;
-                
                 let locid = getId(locationurl);
                 let departmentid = getId(departmenturl);
                 let department = dep[departmentid];                
@@ -44,12 +36,9 @@ router.get('/',async (req,res)=>{
                 if(manager)
                 {
                     totemp[totemp.length-1].pid = getId(manager_url);
-                }
-                
-            }
-                
+                }   
+            } 
         });    
-        
         res.render('orgchart.ejs',{totemp});
     }
     catch(e)
@@ -91,10 +80,6 @@ function getId(link)
 }
 
 
-async function processUsers(member)
-{
-    
-}
 async function getusers(link)
 {
     let emp=[];
@@ -112,4 +97,10 @@ async function getusers(link)
     }
     return emp;
 }
+
+/****************************
+ * task done by Pranav Gupta*
+ * Roll no - 17045067       * 
+ * **************************/
+
 module.exports = router;

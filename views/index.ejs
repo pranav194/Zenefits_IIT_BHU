@@ -3,15 +3,124 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Landing Page</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <title>Zenefits IIT BHU</title>
+    <style>
+        
+        h1{
+            color:#C3447A;
+        }
+        #tree {
+            width: 100%;
+            height: 100%;
+            position: relative;
+            font-family: 'Alegreya', serif;   
+        }
+        .edit-photo{
+            background-color:#B565A7 !important;
+        }
+        .edit-fields  {
+            font-size: 20px;
+            color: black;
+        }   
+        .edit-fields input {
+            color :#BC243C !important;
+            font-size: 28px;
+        }
+        .edit-wrapper{
+            opacity: 1 !important;
+        }
+        g{
+            font-size: 24px !important;
+        }
+        [node-id] rect {
+            border: #BC243C 2px solid;
+            fill: #DD4124;
+            color: #DFCFBE;
+        }
+    </style>
+    <style type="text/css">
+        .loader{
+            width: 70px;
+            height: 70px;
+            margin: 40px auto;
+            }
+        .loader p{
+            font-size: 16px;
+            color: #777;
+        }
+        .loader .loader-inner{
+            display: inline-block;
+            width: 15px;
+            border-radius: 15px;
+            background: #74d2ba;
+        }
+        .loader .loader-inner:nth-last-child(1){
+            -webkit-animation: loading 1.5s 1s infinite;
+            animation: loading 1.5s 1s infinite;
+        }
+        .loader .loader-inner:nth-last-child(2){
+            -webkit-animation: loading 1.5s .5s infinite;
+            animation: loading 1.5s .5s infinite;
+        }
+        .loader .loader-inner:nth-last-child(3){
+            -webkit-animation: loading 1.5s 0s infinite;
+            animation: loading 1.5s 0s infinite;
+        }
+        @-webkit-keyframes loading{
+            0%{
+                height: 15px;
+            }
+            50%{
+                height: 35px;
+            }
+            100%{
+                height: 15px;
+            }
+        }
+        @keyframes loading{
+            0%{
+                height: 15px;
+            }
+            50%{
+                height: 35px;
+            }
+            100%{
+                height: 15px;
+            }
+        }
+    </style>
+
 </head>
+<script src="https://balkangraph.com/js/latest/OrgChart.js"></script>
+<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+<link href="https://fonts.googleapis.com/css?family=Alegreya&display=swap" rel="stylesheet">
 <body>
+    <div class="container-fluid text-justify" >
+        <h1  style="text-align:center; padding-top: 3%" >ZENEFITS IIT BHU ASSIGNMENT</h1>
+        <br> <br> <br>
+        <div class="container">
+            <div class="list-group">
+                <a href="/org" class="list-group-item ">Take me to Org Chart</a>
+                <a href="/listofdep" class="list-group-item">Grouping Department Wise</a>
+                <a href="/loc" class="list-group-item">Grouping Location Wise</a>
+            </div>
+        </div>
+        <br> <br> <br>
+        <footer>
+        <h6 style="text-align: center; vertical-align:bottom;">
+            Created by Pranav Gupta <br>
+            Roll no - 17045067
+        </h6>
+    </footer>
+    </div>
+
     
-    <input type="button" id = "takebtn" value="Take me to org chart" >
 </body>
 <script>
-    $(".takebtn").click(function(){
-        $.get(`/zenefits/org`);
-    });
+     
 </script>
+
 </html>
